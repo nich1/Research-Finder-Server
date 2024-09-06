@@ -1,2 +1,2 @@
 # Research-Finder
-Portal for connecting students to research projects.
+The ultimate, all in one, Portal for connecting students to research projects.
