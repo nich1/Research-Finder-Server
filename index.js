@@ -12,10 +12,8 @@ app.get('/', (req, res) => {
 
 // POST route to echo back the request body
 app.post('/echo', (req, res) => {
-  res.json({
-    message: 'You sent the following data:',
-    data: req.body
-  });
+    res.send('echo');
+
 });
 
 app.listen(port, () => {
