@@ -17,7 +17,7 @@ admin.initializeApp({
 // Firestore database instance
 const db = admin.firestore();
 
-// Root route to test GET request
+// GET request
 app.get('/', (req, res) => {
   res.send('Hello, Express on Vercel!');
 });
