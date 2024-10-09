@@ -6,12 +6,14 @@ const port = process.env.PORT || 3000;
 // Middleware to parse JSON bodies
 app.use(express.json());
 
-// Initialize Firebase Admin SDK
-const serviceAccount = require('./firebase-adminsdk.json'); // Path to your Firebase credentials
-
+// Initialize Firebase Admin SDK using environment variables
 admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-  databaseURL: "https://<your-database-name>.firebaseio.com" // Replace with your database URL
+  credential: admin.credential.cert({
+    projectId: process.env.FIREBASE_PROJECT_ID,
+    clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
+    privateKey: process.env.FIREBASE_PRIVATE_KEY, // Handle new line character
+  }),
+  databaseURL: 'https://research-finder-1000.firebaseio.com'
 });
 
 // Firestore database instance
