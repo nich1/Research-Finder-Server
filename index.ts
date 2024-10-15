@@ -1,5 +1,6 @@
-const express = require('express');
-const admin = require('firebase-admin'); // Import Firebase Admin SDK
+import express, { Request, Response } from 'express';
+import admin from 'firebase-admin'; // Import Firebase Admin SDK
+
 const app = express();
 const port = process.env.PORT || 3000;
 
@@ -11,27 +12,27 @@ admin.initializeApp({
   credential: admin.credential.cert({
     projectId: process.env.FIREBASE_PROJECT_ID,
     clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
-    privateKey: process.env.FIREBASE_PRIVATE_KEY, // Handle new line character
+    privateKey: (process.env.FIREBASE_PRIVATE_KEY as string), // Handle new line character
   }),
-  databaseURL: 'https://research-finder-1000.firebaseio.com'
+  databaseURL: 'https://research-finder-1000.firebaseio.com',
 });
 
 // Firestore database instance
 const db = admin.firestore();
 
 // GET request
-app.get('/', (req, res) => {
+app.get('/', (req: Request, res: Response) => {
   res.send('Hello, Express on Vercel!');
 });
 
 // POST route to echo back the request body and store it in Firestore
-app.post('/echo', async (req, res) => {
+app.post('/echo', async (req: Request, res: Response) => {
   try {
     // Echo the data back to the user
     const data = req.body;
     res.json({
       message: 'You sent the following data:',
-      data: data
+      data: data,
     });
 
     // Store the data in Firestore
@@ -43,7 +44,8 @@ app.post('/echo', async (req, res) => {
     res.status(500).send('Error saving data');
   }
 });
-//t
+
+// Start the server
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
