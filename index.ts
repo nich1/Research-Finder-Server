@@ -46,7 +46,7 @@ app.post('/echo', async (req: Request, res: Response) => {
 });
 
 // POST route for adding research data
-app.post('/research', async (req: Request, res: Response) => {
+app.post('/posts', async (req: Request, res: Response) => {
   const {
     researcherID,
     researcherName,
@@ -78,7 +78,7 @@ app.post('/research', async (req: Request, res: Response) => {
     };
 
     // Store the data in Firestore
-    const docRef = db.collection('researchData').doc(); // Creates a new document
+    const docRef = db.collection('posts').doc(); // Creates a new document
     await docRef.set(researchData); // Store the request body in the new document
     console.log('Research data saved to Firestore');
 
