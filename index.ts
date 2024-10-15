@@ -45,6 +45,56 @@ app.post('/echo', async (req: Request, res: Response) => {
   }
 });
 
+// POST route for adding research data
+app.post('/research', async (req: Request, res: Response) => {
+  const {
+    researcherID,
+    researcherName,
+    title,
+    body,
+    organization,
+    compensation,
+    approvalMessage,
+    approvedUsers
+  } = req.body;
+
+  // Validate the required fields
+  if (!researcherID || !researcherName || !title || !body || !organization || !compensation || !approvalMessage || !Array.isArray(approvedUsers)) {
+    return res.status(400).json({ message: 'Missing required fields or approvedUsers is not an array.' });
+  }
+
+  try {
+    // Prepare the data object
+    const researchData = {
+      researcherID,
+      researcherName,
+      title,
+      body,
+      organization,
+      compensation,
+      approvalMessage,
+      approvedUsers,
+      createdAt: admin.firestore.FieldValue.serverTimestamp(), // Optional: add a timestamp
+    };
+
+    // Store the data in Firestore
+    const docRef = db.collection('researchData').doc(); // Creates a new document
+    await docRef.set(researchData); // Store the request body in the new document
+    console.log('Research data saved to Firestore');
+
+    // Respond back to the user
+    res.status(201).json({
+      message: 'Research data added successfully',
+      data: researchData,
+      id: docRef.id // Return the unique document ID
+    });
+  } catch (error) {
+    console.error('Error saving research data to Firestore:', error);
+    res.status(500).send('Error saving research data');
+  }
+});
+
+
 // Start the server
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
