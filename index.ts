@@ -20,6 +20,13 @@ admin.initializeApp({
 // Firestore database instance
 const db = admin.firestore();
 
+enum WorkType {
+  Remote = 'remote',
+  Online = 'online',
+  Hybrid = 'hybrid',
+}
+
+
 // GET request
 app.get('/', (req: Request, res: Response) => {
   res.send('Hello, Express on Vercel!');
@@ -54,12 +61,13 @@ app.post('/posts', async (req: Request, res: Response) => {
     body,
     organization,
     compensation,
+    workType,
     approvalMessage,
     approvedUsers
   } = req.body;
 
   // Validate the required fields
-  if (!researcherID || !researcherName || !title || !body || !organization || !compensation || !approvalMessage || !Array.isArray(approvedUsers)) {
+  if (!workType || !researcherID || !researcherName || !title || !body || !organization || !compensation || !approvalMessage || !Array.isArray(approvedUsers)) {
     return res.status(400).json({ message: 'Missing required fields or approvedUsers is not an array.' });
   }
 
@@ -73,6 +81,7 @@ app.post('/posts', async (req: Request, res: Response) => {
       organization,
       compensation,
       approvalMessage,
+      workType,
       approvedUsers,
       createdAt: admin.firestore.FieldValue.serverTimestamp(), // Optional: add a timestamp
     };
