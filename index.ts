@@ -63,6 +63,7 @@ app.post('/posts', async (req: Request, res: Response) => {
     compensation,
     workType,
     approvalMessage,
+    expirationDate,
     approvedUsers
   } = req.body;
 
@@ -83,6 +84,8 @@ app.post('/posts', async (req: Request, res: Response) => {
       approvalMessage,
       workType,
       approvedUsers,
+      expirationDate: admin.firestore.Timestamp.fromDate(new Date(expirationDate)), // Convert to Firestore Timestamp
+
       createdAt: admin.firestore.FieldValue.serverTimestamp(), // Optional: add a timestamp
     };
 
