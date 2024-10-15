@@ -1,8 +1,5 @@
-import express, { Request, Response } from 'express';
-import admin from 'firebase-admin'; // Import Firebase Admin SDK
-import { ServiceAccount } from 'firebase-admin';
-
-// Initialize Express app
+const express = require('express');
+const admin = require('firebase-admin'); // Import Firebase Admin SDK
 const app = express();
 const port = process.env.PORT || 3000;
 
