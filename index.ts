@@ -52,6 +52,25 @@ app.post('/echo', async (req: Request, res: Response) => {
   }
 });
 
+// GET request to fetch all posts
+app.get('/posts', async (req: Request, res: Response) => {
+  try {
+    const postsCollection = db.collection('posts');
+    const snapshot = await postsCollection.get();
+    
+    // Map over the documents and extract data
+    const posts = snapshot.docs.map(doc => ({
+      id: doc.id, // Include the document ID
+      ...doc.data() // Spread the document data
+    }));
+
+    res.json(posts); // Return the posts as an array in JSON format
+  } catch (error) {
+    console.error('Error fetching posts:', error);
+    res.status(500).json({ error: 'Failed to fetch posts' });
+  }
+});
+
 // POST route for adding research data
 app.post('/posts', async (req: Request, res: Response) => {
   const {
